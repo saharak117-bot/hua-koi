@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#12182d">
+<meta name="description" content="แอปโยนเหรียญหัวหรือก้อย พร้อมสถิติและประวัติ">
+<link rel="manifest" href="manifest.webmanifest">
+<title>หัวหรือก้อย</title>
+<style>
+:root{color-scheme:dark;--bg:#12182d;--panel:#202b48;--muted:#b8c2d9;--purple:#7068ff;--gold:#ffd166}
+*{box-sizing:border-box}body{margin:0;min-height:100svh;background:radial-gradient(circle at 50% 20%,#263457 0,#12182d 58%);color:#fff;font-family:system-ui,-apple-system,"Noto Sans Thai",sans-serif;display:flex;justify-content:center}
+main{width:min(100%,480px);min-height:100svh;padding:28px 22px calc(28px + env(safe-area-inset-bottom));display:flex;flex-direction:column;align-items:center;text-align:center}
+h1{font-size:30px;margin:14px 0 4px}.sub{color:var(--muted);margin:0 0 25px}
+.coin-wrap{height:220px;display:grid;place-items:center;perspective:900px;margin:4px 0 12px}
+.coin{width:184px;height:184px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(145deg,#ffe69a,#f5b83f);border:10px solid #e3a32f;box-shadow:0 12px 35px #0006,inset 0 0 0 5px #ffedb4;color:#68420d;font-size:42px;font-weight:900;text-shadow:0 1px #fff8;transform-style:preserve-3d}
+.coin.flipping{animation:flip .95s cubic-bezier(.18,.72,.2,1)}
+@keyframes flip{0%{transform:rotateY(0) scale(1)}50%{transform:rotateY(900deg) scale(1.08)}100%{transform:rotateY(1800deg) scale(1)}}
+.result{font-size:28px;font-weight:800;min-height:48px;margin:4px 0 18px}
+button{font:inherit;border:0;cursor:pointer}
+.toss{width:100%;padding:17px;border-radius:16px;background:linear-gradient(135deg,#817aff,#5e55ed);color:white;font-weight:800;font-size:20px;box-shadow:0 8px 22px #625bff40}
+.toss:disabled{opacity:.65}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:100%;margin:24px 0 16px}
+.stat{background:#202b48;border:1px solid #ffffff12;border-radius:15px;padding:13px 5px}
+.stat b{display:block;font-size:25px}.stat span{color:var(--muted);font-size:13px}
+.history{width:100%;background:#202b48;border:1px solid #ffffff12;border-radius:16px;padding:15px;text-align:left;flex:1;min-height:130px}
+.history-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.history h2{font-size:17px;margin:0}
+.reset{background:transparent;color:#c9cfff;font-size:13px;padding:6px 9px}
+#entries{margin:0;padding-left:22px;color:#e5e9f5;font-size:14px;line-height:1.9}
+.empty{color:var(--muted);text-align:center;padding:25px 0;font-size:14px}
+footer{color:#8491ae;font-size:12px;margin-top:15px}
+</style>
+</head>
+<body>
+<main>
+  <h1>🪙 หัวหรือก้อย</h1>
+  <p class="sub">คิดไม่ออก ให้เหรียญช่วยตัดสินใจ</p>
+  <div class="coin-wrap"><div class="coin" id="coin">฿</div></div>
+  <div class="result" id="result" aria-live="polite">พร้อมโยนหรือยัง?</div>
+  <button class="toss" id="toss">โยนเหรียญ</button>
+  <section class="stats" aria-label="สถิติ">
+    <div class="stat"><b id="heads">0</b><span>หัว</span></div>
+    <div class="stat"><b id="tails">0</b><span>ก้อย</span></div>
+    <div class="stat"><b id="total">0</b><span>รวมครั้ง</span></div>
+  </section>
+  <section class="history">
+    <div class="history-head"><h2>ประวัติการโยน</h2><button class="reset" id="reset">ล้างสถิติ</button></div>
+    <div id="empty" class="empty">ยังไม่มีประวัติ ลองโยนเหรียญดูสิ!</div>
+    <ol id="entries"></ol>
+  </section>
+  <footer>หัวหรือก้อย · สุ่มด้วยระบบของอุปกรณ์</footer>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+let heads=0,tails=0,history=[];
+function render(){
+  $('heads').textContent=heads;$('tails').textContent=tails;$('total').textContent=heads+tails;
+  $('entries').innerHTML='';
+  $('empty').style.display=history.length?'none':'block';
+  history.forEach(item=>{const li=document.createElement('li');li.textContent=item;$('entries').appendChild(li)});
+}
+$('toss').addEventListener('click',()=>{
+  const btn=$('toss'),coin=$('coin');btn.disabled=true;$('result').textContent='กำลังโยน...';
+  coin.classList.remove('flipping');void coin.offsetWidth;coin.classList.add('flipping');
+  const head=crypto.getRandomValues(new Uint8Array(1))[0]<128;
+  setTimeout(()=>{
+    const side=head?'หัว':'ก้อย';if(head)heads++;else tails++;
+    coin.textContent=side;$('result').textContent='ออก '+side+'!';
+    history.unshift(side);history=history.slice(0,30);render();
+    coin.classList.remove('flipping');btn.disabled=false;
+  },950);
+});
+$('reset').addEventListener('click',()=>{
+  if(!confirm('ต้องการล้างสถิติและประวัติทั้งหมดใช่ไหม?'))return;
+  heads=0;tails=0;history=[];$('coin').textContent='฿';$('result').textContent='พร้อมโยนหรือยัง?';render();
+});
+render();
+if('serviceWorker' in navigator && location.protocol.startsWith('http')) navigator.serviceWorker.register('./sw.js').catch(()=>{});
+</script>
+</body>
+</html>

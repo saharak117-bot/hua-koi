@@ -1,0 +1,17 @@
+{
+  "name": "หัวหรือก้อย",
+  "short_name": "หัวก้อย",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#12182d",
+  "theme_color": "#12182d",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "lang": "th"
+}
