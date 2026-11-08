@@ -94,12 +94,12 @@ function renderHistory(){$('history').innerHTML='';$('empty').style.display=hist
 function resetVisual(){revealed=0;offset=0;active=false;$('cup').classList.remove('done');$('cup').style.display='flex';paintCup();for(let i=0;i<3;i++){$('die'+i).classList.add('hidden');$('die'+i).textContent=faces[dice[i]];$('dot'+i).classList.remove('active')}$('result').textContent='';$('numbers').textContent='';$('hint').textContent='หลังเขย่า เลื่อนแก้วขึ้นด้านบนจนพ้นจอเพื่อเปิดลูกเต๋าทีละลูก เมื่อเปิดครบให้ดึงแก้วลงเพื่อปิด';$('nextBtn').disabled=true}
 function newRound(){
  getAudio();
- // สุ่มใหม่จนกว่าผลรวมจะไม่ใช่ 10
- do{dice=[1,2,3].map(()=>Math.floor(Math.random()*6)+1)}while(dice.reduce((a,b)=>a+b,0)===10);
+ // สุ่มใหม่จนกว่าผลรวมจะไม่ใช่ 10 หรือ 11
+ do{dice=[1,2,3].map(()=>Math.floor(Math.random()*6)+1)}while([10,11].includes(dice.reduce((a,b)=>a+b,0)));
  resetVisual();active=true;setStatus('ลูกเต๋าพร้อมแล้ว — เลื่อนแก้วขึ้นด้านบนเพื่อเปิดลูกที่ 1');rattle()
 }
 function revealOne(){if(!active||revealed>=3)return;const i=revealed;revealed++;$('die'+i).classList.remove('hidden');$('dot'+i).classList.add('active');setStatus(`เปิดลูกที่ ${i+1} ได้ ${thai[dice[i]]}`);speak(thai[dice[i]]);
- if(revealed===3){active=false;const sum=dice.reduce((a,b)=>a+b,0),result=sum<=10?'ต่ำ':'สูง';$('result').textContent=`รวม ${sum} แต้ม — ${result}`;$('numbers').innerHTML=`ลูกเต๋า: <b>${dice.join(' · ')}</b>`;speak(`${thai[dice[0]]} ${thai[dice[1]]} ${thai[dice[2]]} รวม ${sum} แต้ม ${result}`);history.unshift({d:[...dice],sum,result,at:Date.now()});history=history.slice(0,100);localStorage.setItem('hilo3_history',JSON.stringify(history));renderHistory();setStatus('เปิดครบทั้ง 3 ลูกแล้ว');$('hint').textContent='เปิดครบแล้ว — ดึงแก้วลงมาคลุมลูกเต๋าทั้ง 3 ลูกเพื่อปิด แล้วกดเขย่าเล่นรอบใหม่ได้';$('nextBtn').disabled=false;$('rollBtn').disabled=false}
+ if(revealed===3){active=false;const sum=dice.reduce((a,b)=>a+b,0),result=sum<=9?'ต่ำ':'สูง';$('result').textContent=`รวม ${sum} แต้ม — ${result}`;$('numbers').innerHTML=`ลูกเต๋า: <b>${dice.join(' · ')}</b>`;speak(`${thai[dice[0]]} ${thai[dice[1]]} ${thai[dice[2]]} รวม ${sum} แต้ม ${result}`);history.unshift({d:[...dice],sum,result,at:Date.now()});history=history.slice(0,100);localStorage.setItem('hilo3_history',JSON.stringify(history));renderHistory();setStatus('เปิดครบทั้ง 3 ลูกแล้ว');$('hint').textContent='เปิดครบแล้ว — ดึงแก้วลงมาคลุมลูกเต๋าทั้ง 3 ลูกเพื่อปิด แล้วกดเขย่าเล่นรอบใหม่ได้';$('nextBtn').disabled=false;$('rollBtn').disabled=false}
  else $('hint').textContent=`เปิดแล้ว ${revealed}/3 ลูก — เลื่อนแก้วขึ้นต่อเพื่อเปิดลูกที่ ${revealed+1}`}
 function pointerDown(e){if(!active&&revealed!==3)return;startY=e.clientY;startOffset=offset;$('cup').setPointerCapture(e.pointerId)}
 function pointerMove(e){if(!$('cup').hasPointerCapture(e.pointerId))return;offset=Math.max(0,Math.min(maxOffset(),startOffset+startY-e.clientY));paintCup()}
