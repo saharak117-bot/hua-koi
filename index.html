@@ -94,8 +94,8 @@ function renderHistory(){$('history').innerHTML='';$('empty').style.display=hist
 function resetVisual(){revealed=0;offset=0;active=false;$('cup').classList.remove('done');$('cup').style.display='flex';paintCup();for(let i=0;i<3;i++){$('die'+i).classList.add('hidden');$('die'+i).textContent=faces[dice[i]];$('dot'+i).classList.remove('active')}$('result').textContent='';$('numbers').textContent='';$('hint').textContent='หลังเขย่า เลื่อนแก้วขึ้นด้านบนจนพ้นจอเพื่อเปิดลูกเต๋าทีละลูก เมื่อเปิดครบให้ดึงแก้วลงเพื่อปิด';$('nextBtn').disabled=true}
 function newRound(){
  getAudio();
- // สุ่มใหม่จนกว่าผลรวมจะไม่ใช่ 11
- do{dice=[1,2,3].map(()=>Math.floor(Math.random()*6)+1)}while(dice.reduce((a,b)=>a+b,0)===11);
+ // สุ่มใหม่จนกว่าผลรวมจะไม่ใช่ 10
+ do{dice=[1,2,3].map(()=>Math.floor(Math.random()*6)+1)}while(dice.reduce((a,b)=>a+b,0)===10);
  resetVisual();active=true;setStatus('ลูกเต๋าพร้อมแล้ว — เลื่อนแก้วขึ้นด้านบนเพื่อเปิดลูกที่ 1');rattle()
 }
 function revealOne(){if(!active||revealed>=3)return;const i=revealed;revealed++;$('die'+i).classList.remove('hidden');$('dot'+i).classList.add('active');setStatus(`เปิดลูกที่ ${i+1} ได้ ${thai[dice[i]]}`);speak(thai[dice[i]]);
