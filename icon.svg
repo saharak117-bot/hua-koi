@@ -1,36 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
-  <rect width="128" height="128" rx="25" fill="#172438"/>
-  <rect x="12" y="12" width="104" height="104" rx="22" fill="#f3f5f8"/>
-
-  <g fill="#172438">
-    <!-- หูกระต่าย -->
-    <path d="M64 48 C48 30 48 12 57 14 C68 17 70 34 72 47 Z"/>
-    <path d="M73 46 C70 24 80 8 88 15 C95 23 83 39 80 49 Z"/>
-
-    <!-- ลำตัว -->
-    <ellipse cx="67" cy="70" rx="25" ry="17"/>
-
-    <!-- หัว -->
-    <circle cx="88" cy="53" r="15"/>
-
-    <!-- หาง -->
-    <circle cx="39" cy="65" r="9"/>
-
-    <!-- ขาหน้า -->
-    <path d="M85 78 L105 89 L100 95 L79 86 Z"/>
-
-    <!-- ขาหลัง -->
-    <path d="M57 79 L43 96 L51 100 L70 84 Z"/>
-    <path d="M67 80 L62 99 L70 102 L79 83 Z"/>
-  </g>
-
-  <!-- ตา -->
-  <circle cx="94" cy="49" r="2.5" fill="#f3f5f8"/>
-
-  <!-- เส้นแสดงความเร็ว -->
-  <g stroke="#172438" stroke-width="4" stroke-linecap="round">
-    <path d="M20 49 H38"/>
-    <path d="M17 62 H31"/>
-    <path d="M22 76 H38"/>
-  </g>
-</svg>
+<rect width="128" height="128" rx="26" fill="#172438"/><circle cx="64" cy="70" r="43" fill="#f3f5f8"/>
+<ellipse cx="46" cy="29" rx="13" ry="27" transform="rotate(-13 46 29)" fill="#f3f5f8"/><ellipse cx="82" cy="29" rx="13" ry="27" transform="rotate(13 82 29)" fill="#f3f5f8"/>
+<ellipse cx="46" cy="30" rx="5" ry="17" transform="rotate(-13 46 30)" fill="#e9a8b7"/><ellipse cx="82" cy="30" rx="5" ry="17" transform="rotate(13 82 30)" fill="#e9a8b7"/>
+<ellipse cx="49" cy="68" rx="4.5" ry="6" fill="#172438"/><ellipse cx="79" cy="68" rx="4.5" ry="6" fill="#172438"/>
+<path d="M59 79 Q64 74 69 79 Q64 87 59 79Z" fill="#e58c9e"/><path d="M64 85 Q59 93 53 88 M64 85 Q69 93 75 88" fill="none" stroke="#172438" stroke-width="3" stroke-linecap="round"/>
+<circle cx="31" cy="82" r="7" fill="#f0b8c2" opacity=".8"/><circle cx="97" cy="82" r="7" fill="#f0b8c2" opacity=".8"/></svg>

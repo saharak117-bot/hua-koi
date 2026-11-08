@@ -2,7 +2,7 @@
 <html lang="th"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta name="theme-color" content="#101827"><link rel="manifest" href="manifest.webmanifest">
-<title>ไฮโลลูกเต๋า 3 ลูก</title>
+<title>คณิตคิดเร็ว</title>
 <style>
 :root{color-scheme:dark;--gold:#f6c85f}*{box-sizing:border-box}
 body{margin:0;background:radial-gradient(circle at top,#263a55,#101827 65%);color:#f7f8fb;font-family:system-ui,-apple-system,"Noto Sans Thai",sans-serif;min-height:100vh}
@@ -29,7 +29,7 @@ h2{font-size:19px;margin:0 0 12px}.rules{font-size:13px;color:#c4cede;line-heigh
 th,td{padding:9px 7px;text-align:center;border-bottom:1px solid #40516a}th{color:var(--gold);font-weight:750}
 .empty{text-align:center;color:#9eacc0;padding:18px}.footer{text-align:center;color:#8998ad;font-size:11px;margin-top:18px}
 </style></head><body><main>
-<h1>🎲 ไฮโลลูกเต๋า 3 ลูก</h1><p class="sub">เขย่าแล้วเลื่อนแก้วขึ้นเพื่อเปิดลูกเต๋าทีละลูก</p>
+<h1>🐰 คณิตคิดเร็ว</h1><p class="sub">เขย่าแล้วเลื่อนแก้วขึ้นเพื่อเปิดลูกเต๋าทีละลูก</p>
 <section class="panel">
 <div class="status" id="status">กด “เขย่าลูกเต๋า” เพื่อเริ่มรอบใหม่</div>
 <div class="stage" id="stage"><div class="dice-row">
@@ -37,7 +37,7 @@ th,td{padding:9px 7px;text-align:center;border-bottom:1px solid #40516a}th{color
 <div class="die-slot"><div class="die hidden" id="die1">⚀</div><span class="die-label">ลูกที่ 2 (ด้านบน)</span></div>
 <div class="die-slot"><div class="die hidden" id="die2">⚀</div><span class="die-label">ลูกที่ 3 (ด้านบน)</span></div>
 </div><div class="cup" id="cup" aria-label="เลื่อนแก้วขึ้นเพื่อเปิด และดึงลงมาปิดลูกเต๋าทั้ง 3 ลูก"></div></div>
-<div class="hint" id="hint">หลังเขย่า ใช้นิ้วลากแก้วไปทางขวาทีละจังหวะ</div>
+<div class="hint" id="hint">หลังเขย่า ใช้นิ้วลากแก้วขึ้นด้านบนเพื่อเปิดลูกเต๋าทีละลูก</div>
 <div class="progress"><i class="dot" id="dot0"></i><i class="dot" id="dot1"></i><i class="dot" id="dot2"></i></div>
 <div class="result" id="result"></div><div class="numbers" id="numbers"></div>
 <div class="actions"><button id="rollBtn">เขย่าลูกเต๋า</button><button class="secondary" id="nextBtn" disabled>เริ่มรอบถัดไป</button><button class="secondary" id="soundBtn" aria-pressed="true">🔊 เสียงเปิดอยู่</button></div>
@@ -88,7 +88,7 @@ function syncSound(){
  $('volumeSlider').value=shakeVolume;$('volumeValue').textContent=shakeVolume+'%';
 }
 function paintCup(){$('cup').style.transform=`translateY(${-offset}px)`}
-function maxOffset(){return $('cup').offsetHeight+10}
+function maxOffset(){return $('cup').offsetHeight+20}
 function setStatus(t){$('status').textContent=t}
 function renderHistory(){$('history').innerHTML='';$('empty').style.display=history.length?'none':'block';history.slice(0,100).forEach((r,i)=>{const tr=document.createElement('tr');[history.length-i,r.d[0],r.d[1],r.d[2],r.sum,r.result].forEach(v=>{let td=document.createElement('td');td.textContent=v;tr.appendChild(td)});$('history').appendChild(tr)})}
 function resetVisual(){revealed=0;offset=0;active=false;$('cup').classList.remove('done');$('cup').style.display='flex';paintCup();for(let i=0;i<3;i++){$('die'+i).classList.add('hidden');$('die'+i).textContent=faces[dice[i]];$('dot'+i).classList.remove('active')}$('result').textContent='';$('numbers').textContent='';$('hint').textContent='หลังเขย่า เลื่อนแก้วขึ้นด้านบนจนพ้นจอเพื่อเปิดลูกเต๋าทีละลูก เมื่อเปิดครบให้ดึงแก้วลงเพื่อปิด';$('nextBtn').disabled=true}
