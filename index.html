@@ -10,12 +10,12 @@ main{width:min(680px,100%);margin:auto;padding:20px 16px 40px}h1{text-align:cent
 .sub{text-align:center;color:#c4cede;margin:0 0 20px;font-size:14px}
 .panel{background:#1b293def;border:1px solid #40516a;border-radius:18px;padding:16px;margin:14px 0;box-shadow:0 12px 30px #0005}
 .status{text-align:center;color:#d8e1ef;min-height:28px;font-weight:600}
-.stage{position:relative;overflow:hidden;width:100%;max-width:490px;height:310px;margin:12px auto 10px;padding:14px 12px;border-radius:18px;background:linear-gradient(180deg,#26364d,#172438);border:1px solid #60718a;touch-action:pan-y}
+.stage{position:relative;overflow:hidden;width:100%;max-width:490px;height:350px;margin:12px auto 10px;padding:14px 12px;border-radius:18px;background:linear-gradient(180deg,#26364d,#172438);border:1px solid #60718a;touch-action:pan-y}
 .dice-row{position:absolute;inset:12px;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:12px;z-index:1}
-.die-slot{height:112px;border-radius:14px;background:#0d1727;border:1px dashed #66758a;display:flex;align-items:center;justify-content:center;position:relative}.die-slot:nth-child(1){grid-column:1/3;grid-row:1;width:50%;justify-self:center}.die-slot:nth-child(2){grid-column:1;grid-row:2}.die-slot:nth-child(3){grid-column:2;grid-row:2}
+.die-slot{height:112px;border-radius:14px;background:#0d1727;border:1px dashed #66758a;display:flex;align-items:center;justify-content:center;position:relative}.die-slot:nth-child(1){grid-column:1/3;grid-row:2;width:50%;justify-self:center}.die-slot:nth-child(2){grid-column:1;grid-row:1}.die-slot:nth-child(3){grid-column:2;grid-row:1}
 .die{width:72px;height:72px;border-radius:16px;background:linear-gradient(145deg,#fff,#dce4ef);box-shadow:0 5px 0 #aab5c4,0 8px 14px #0007;color:#182235;display:grid;place-items:center;font-size:49px;font-weight:800}
 .die.hidden{visibility:hidden}.die-label{position:absolute;bottom:5px;font-size:11px;color:#aebbd0}
-.cup{position:absolute;z-index:3;left:12px;bottom:14px;height:92px;width:calc(100% - 24px);border-radius:12px 12px 20px 20px;background:linear-gradient(100deg,#596779,#d7dee6 22%,#8795a6 48%,#e3e8ee 70%,#596779);border:2px solid #e1e7ef;box-shadow:0 9px 14px #0009,inset 0 4px 8px #fff8;display:flex;align-items:center;justify-content:center;user-select:none;touch-action:none;cursor:grab;transition:transform .24s ease}
+.cup{position:absolute;z-index:3;left:6px;bottom:6px;height:calc(100% - 12px);width:calc(100% - 12px);border-radius:12px 12px 20px 20px;background:linear-gradient(100deg,#596779,#d7dee6 22%,#8795a6 48%,#e3e8ee 70%,#596779);border:2px solid #e1e7ef;box-shadow:0 9px 14px #0009,inset 0 4px 8px #fff8;display:flex;align-items:center;justify-content:center;user-select:none;touch-action:none;cursor:grab;transition:transform .24s ease}
 .cup:active{cursor:grabbing}.cup:before{content:"";position:absolute;left:-5px;right:-5px;top:-7px;height:13px;border-radius:50%;background:linear-gradient(#f4f7fa,#748397);border:2px solid #dce4ed}
 .cup:after{content:"เลื่อน";font-size:13px;font-weight:800;color:#253246;text-shadow:0 1px #fff9}.cup.done{display:none}
 .hint{text-align:center;font-size:13px;color:#b9c7d9;margin:9px 0 0}
@@ -33,10 +33,10 @@ th,td{padding:9px 7px;text-align:center;border-bottom:1px solid #40516a}th{color
 <section class="panel">
 <div class="status" id="status">กด “เขย่าลูกเต๋า” เพื่อเริ่มรอบใหม่</div>
 <div class="stage" id="stage"><div class="dice-row">
-<div class="die-slot"><div class="die hidden" id="die0">⚀</div><span class="die-label">ลูกที่ 1 (ด้านบน)</span></div>
-<div class="die-slot"><div class="die hidden" id="die1">⚀</div><span class="die-label">ลูกที่ 2</span></div>
-<div class="die-slot"><div class="die hidden" id="die2">⚀</div><span class="die-label">ลูกที่ 3</span></div>
-</div><div class="cup" id="cup" aria-label="เลื่อนแก้วเพื่อเปิดลูกเต๋าทีละลูก"></div></div>
+<div class="die-slot"><div class="die hidden" id="die0">⚀</div><span class="die-label">ลูกที่ 1 (ด้านล่าง)</span></div>
+<div class="die-slot"><div class="die hidden" id="die1">⚀</div><span class="die-label">ลูกที่ 2 (ด้านบน)</span></div>
+<div class="die-slot"><div class="die hidden" id="die2">⚀</div><span class="die-label">ลูกที่ 3 (ด้านบน)</span></div>
+</div><div class="cup" id="cup" aria-label="เลื่อนแก้วขึ้นเพื่อเปิด และดึงลงมาปิดลูกเต๋าทั้ง 3 ลูก"></div></div>
 <div class="hint" id="hint">หลังเขย่า ใช้นิ้วลากแก้วไปทางขวาทีละจังหวะ</div>
 <div class="progress"><i class="dot" id="dot0"></i><i class="dot" id="dot1"></i><i class="dot" id="dot2"></i></div>
 <div class="result" id="result"></div><div class="numbers" id="numbers"></div>
@@ -88,7 +88,7 @@ function syncSound(){
  $('volumeSlider').value=shakeVolume;$('volumeValue').textContent=shakeVolume+'%';
 }
 function paintCup(){$('cup').style.transform=`translateY(${-offset}px)`}
-function maxOffset(){return 176}
+function maxOffset(){return 300}
 function setStatus(t){$('status').textContent=t}
 function renderHistory(){$('history').innerHTML='';$('empty').style.display=history.length?'none':'block';history.slice(0,100).forEach((r,i)=>{const tr=document.createElement('tr');[history.length-i,r.d[0],r.d[1],r.d[2],r.sum,r.result].forEach(v=>{let td=document.createElement('td');td.textContent=v;tr.appendChild(td)});$('history').appendChild(tr)})}
 function resetVisual(){revealed=0;offset=0;active=false;$('cup').classList.remove('done');$('cup').style.display='flex';paintCup();for(let i=0;i<3;i++){$('die'+i).classList.add('hidden');$('die'+i).textContent=faces[dice[i]];$('dot'+i).classList.remove('active')}$('result').textContent='';$('numbers').textContent='';$('hint').textContent='หลังเขย่า เลื่อนแก้วขึ้นด้านบนเพื่อเปิดทีละลูก เมื่อเปิดครบให้ดึงแก้วลงเพื่อปิด';$('nextBtn').disabled=true}
@@ -99,7 +99,7 @@ function newRound(){
  resetVisual();active=true;setStatus('ลูกเต๋าพร้อมแล้ว — เลื่อนแก้วขึ้นด้านบนเพื่อเปิดลูกที่ 1');rattle()
 }
 function revealOne(){if(!active||revealed>=3)return;const i=revealed;revealed++;$('die'+i).classList.remove('hidden');$('dot'+i).classList.add('active');setStatus(`เปิดลูกที่ ${i+1} ได้ ${thai[dice[i]]}`);speak(thai[dice[i]]);
- if(revealed===3){active=false;const sum=dice.reduce((a,b)=>a+b,0),result=sum<=10?'ต่ำ':'สูง';$('result').textContent=`รวม ${sum} แต้ม — ${result}`;$('numbers').innerHTML=`ลูกเต๋า: <b>${dice.join(' · ')}</b>`;speak(`${thai[dice[0]]} ${thai[dice[1]]} ${thai[dice[2]]} รวม ${sum} แต้ม ${result}`);history.unshift({d:[...dice],sum,result,at:Date.now()});history=history.slice(0,100);localStorage.setItem('hilo3_history',JSON.stringify(history));renderHistory();setStatus('เปิดครบทั้ง 3 ลูกแล้ว');$('hint').textContent='เปิดครบแล้ว — ใช้นิ้วดึงแก้วลงด้านล่างเพื่อปิด แล้วกดเขย่าเล่นรอบใหม่ได้';$('nextBtn').disabled=false;$('rollBtn').disabled=false}
+ if(revealed===3){active=false;const sum=dice.reduce((a,b)=>a+b,0),result=sum<=10?'ต่ำ':'สูง';$('result').textContent=`รวม ${sum} แต้ม — ${result}`;$('numbers').innerHTML=`ลูกเต๋า: <b>${dice.join(' · ')}</b>`;speak(`${thai[dice[0]]} ${thai[dice[1]]} ${thai[dice[2]]} รวม ${sum} แต้ม ${result}`);history.unshift({d:[...dice],sum,result,at:Date.now()});history=history.slice(0,100);localStorage.setItem('hilo3_history',JSON.stringify(history));renderHistory();setStatus('เปิดครบทั้ง 3 ลูกแล้ว');$('hint').textContent='เปิดครบแล้ว — ดึงแก้วลงมาคลุมลูกเต๋าทั้ง 3 ลูกเพื่อปิด แล้วกดเขย่าเล่นรอบใหม่ได้';$('nextBtn').disabled=false;$('rollBtn').disabled=false}
  else $('hint').textContent=`เปิดแล้ว ${revealed}/3 ลูก — เลื่อนแก้วขึ้นต่อเพื่อเปิดลูกที่ ${revealed+1}`}
 function pointerDown(e){if(!active&&revealed!==3)return;startY=e.clientY;startOffset=offset;$('cup').setPointerCapture(e.pointerId)}
 function pointerMove(e){if(!$('cup').hasPointerCapture(e.pointerId))return;offset=Math.max(0,Math.min(maxOffset(),startOffset+startY-e.clientY));paintCup()}
