@@ -41,6 +41,11 @@ th,td{padding:9px 7px;text-align:center;border-bottom:1px solid #40516a}th{color
 <div class="progress"><i class="dot" id="dot0"></i><i class="dot" id="dot1"></i><i class="dot" id="dot2"></i></div>
 <div class="result" id="result"></div><div class="numbers" id="numbers"></div>
 <div class="actions"><button id="rollBtn">เขย่าลูกเต๋า</button><button class="secondary" id="nextBtn" disabled>เริ่มรอบถัดไป</button><button class="secondary" id="soundBtn" aria-pressed="true">🔊 เสียงเปิดอยู่</button></div>
+<div class="volume-control" style="max-width:420px;margin:14px auto 2px;text-align:center">
+ <label for="volumeSlider" style="display:block;color:#c4cede;font-size:13px;margin-bottom:7px">ระดับเสียงลูกเต๋า <strong id="volumeValue" style="color:#f6c85f">100%</strong></label>
+ <input id="volumeSlider" type="range" min="0" max="100" step="5" value="100" style="width:100%;accent-color:#f6c85f">
+ <div style="display:flex;justify-content:space-between;color:#9eacc0;font-size:11px"><span>เบา</span><span>ดัง</span></div>
+</div>
 </section>
 <section class="panel"><h2>ประวัติผลย้อนหลัง</h2><div class="table-wrap">
 <table><thead><tr><th>รอบ</th><th>ลูก 1</th><th>ลูก 2</th><th>ลูก 3</th><th>รวม</th><th>ผล</th></tr></thead><tbody id="history"></tbody></table><div class="empty" id="empty">ยังไม่มีประวัติ</div></div>
@@ -50,30 +55,50 @@ th,td{padding:9px 7px;text-align:center;border-bottom:1px solid #40516a}th{color
 <script>
 const $=id=>document.getElementById(id),faces=['','⚀','⚁','⚂','⚃','⚄','⚅'];
 let dice=[1,1,1],revealed=0,active=false,startX=0,startOffset=0,offset=0;
-let soundOn=localStorage.getItem('hilo3_sound')!=='off',audioCtx=null,shakeTimer=null;
+let soundOn=localStorage.getItem('hilo3_sound')!=='off',audioCtx=null,shakeVolume=Number(localStorage.getItem('hilo3_volume')||100);
 let history=JSON.parse(localStorage.getItem('hilo3_history')||'[]');
 const thai=['','หนึ่ง','สอง','สาม','สี่','ห้า','หก'];
 function getAudio(){if(!audioCtx){const AC=window.AudioContext||window.webkitAudioContext;if(AC)audioCtx=new AC()}if(audioCtx?.state==='suspended')audioCtx.resume();return audioCtx}
 function rattle(){
- if(!soundOn)return;const ctx=getAudio();if(!ctx)return;
- const now=ctx.currentTime,duration=.72;
- // เสียงลูกเต๋ากระทบกันแบบสั้น ๆ หลายจังหวะ
- for(let i=0;i<17;i++){
-  const t=now+i*.041,osc=ctx.createOscillator(),gain=ctx.createGain(),filter=ctx.createBiquadFilter();
-  osc.type='triangle';osc.frequency.value=850+Math.random()*1900;
-  filter.type='highpass';filter.frequency.value=550;
-  gain.gain.setValueAtTime(.0001,t);gain.gain.exponentialRampToValueAtTime(.075,t+.004);gain.gain.exponentialRampToValueAtTime(.0001,t+.027);
-  osc.connect(filter);filter.connect(gain);gain.connect(ctx.destination);osc.start(t);osc.stop(t+.03);
+ if(!soundOn||shakeVolume<=0)return;
+ const ctx=getAudio();if(!ctx)return;
+ const now=ctx.currentTime,master=ctx.createGain();
+ master.gain.value=(shakeVolume/100)*0.95;
+ master.connect(ctx.destination);
+ // หนึ่งครั้งที่กด = หนึ่งชุดเสียงเขย่าที่ชัดและดัง
+ for(let i=0;i<22;i++){
+  const t=now+i*.035,osc=ctx.createOscillator(),gain=ctx.createGain(),filter=ctx.createBiquadFilter();
+  osc.type='square';osc.frequency.setValueAtTime(1100+Math.random()*2300,t);
+  filter.type='bandpass';filter.frequency.value=1800+Math.random()*1600;filter.Q.value=.7;
+  gain.gain.setValueAtTime(.0001,t);gain.gain.exponentialRampToValueAtTime(.22,t+.002);gain.gain.exponentialRampToValueAtTime(.0001,t+.022);
+  osc.connect(filter);filter.connect(gain);gain.connect(master);osc.start(t);osc.stop(t+.025);
  }
 }
-function speak(t){if(!soundOn||!('speechSynthesis'in window))return;speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(t);u.lang='th-TH';u.rate=.88;speechSynthesis.speak(u)}
-function syncSound(){ $('soundBtn').textContent=soundOn?'🔊 เสียงเปิดอยู่':'🔇 ปิดเสียงอยู่';$('soundBtn').setAttribute('aria-pressed',String(soundOn));if(!soundOn&&'speechSynthesis'in window)speechSynthesis.cancel();localStorage.setItem('hilo3_sound',soundOn?'on':'off')}
+function speak(t){
+ if(!soundOn||!('speechSynthesis'in window))return;
+ speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(t);u.lang='th-TH';u.rate=.88;
+ // ลดเสียงพูดให้เบากว่าเสียงลูกเต๋า
+ u.volume=Math.max(.05,Math.min(.55,(shakeVolume/100)*.55));
+ speechSynthesis.speak(u)
+}
+function syncSound(){
+ $('soundBtn').textContent=soundOn?'🔊 เสียงเปิดอยู่':'🔇 ปิดเสียงอยู่';
+ $('soundBtn').setAttribute('aria-pressed',String(soundOn));
+ if(!soundOn&&'speechSynthesis'in window)speechSynthesis.cancel();
+ localStorage.setItem('hilo3_sound',soundOn?'on':'off');
+ $('volumeSlider').value=shakeVolume;$('volumeValue').textContent=shakeVolume+'%';
+}
 function paintCup(){$('cup').style.transform=`translateX(${offset}px)`}
 function maxOffset(){return $('stage').clientWidth-24}
 function setStatus(t){$('status').textContent=t}
 function renderHistory(){$('history').innerHTML='';$('empty').style.display=history.length?'none':'block';history.slice(0,100).forEach((r,i)=>{const tr=document.createElement('tr');[history.length-i,r.d[0],r.d[1],r.d[2],r.sum,r.result].forEach(v=>{let td=document.createElement('td');td.textContent=v;tr.appendChild(td)});$('history').appendChild(tr)})}
 function resetVisual(){revealed=0;offset=0;active=false;$('cup').classList.remove('done');$('cup').style.display='flex';paintCup();for(let i=0;i<3;i++){$('die'+i).classList.add('hidden');$('die'+i).textContent=faces[dice[i]];$('dot'+i).classList.remove('active')}$('result').textContent='';$('numbers').textContent='';$('hint').textContent='หลังเขย่า ใช้นิ้วลากแก้วไปทางขวาทีละจังหวะ';$('nextBtn').disabled=true}
-function newRound(){getAudio();dice=[1,2,3].map(()=>Math.floor(Math.random()*6)+1);resetVisual();active=true;setStatus('ลูกเต๋าพร้อมแล้ว — ลากแก้วไปทางขวาเพื่อเปิดลูกที่ 1');$('rollBtn').disabled=true;rattle()}
+function newRound(){
+ getAudio();
+ // สุ่มใหม่จนกว่าผลรวมจะไม่ใช่ 11
+ do{dice=[1,2,3].map(()=>Math.floor(Math.random()*6)+1)}while(dice.reduce((a,b)=>a+b,0)===11);
+ resetVisual();active=true;setStatus('ลูกเต๋าพร้อมแล้ว — ลากแก้วไปทางขวาเพื่อเปิดลูกที่ 1');rattle()
+}
 function revealOne(){if(!active||revealed>=3)return;const i=revealed;revealed++;$('die'+i).classList.remove('hidden');$('dot'+i).classList.add('active');setStatus(`เปิดลูกที่ ${i+1} ได้ ${thai[dice[i]]}`);speak(thai[dice[i]]);
  if(revealed===3){active=false;$('cup').classList.add('done');const sum=dice.reduce((a,b)=>a+b,0),result=sum<=10?'ต่ำ':'สูง';$('result').textContent=`รวม ${sum} แต้ม — ${result}`;$('numbers').innerHTML=`ลูกเต๋า: <b>${dice.join(' · ')}</b>`;speak(`${thai[dice[0]]} ${thai[dice[1]]} ${thai[dice[2]]} รวม ${sum} แต้ม ${result}`);history.unshift({d:[...dice],sum,result,at:Date.now()});history=history.slice(0,100);localStorage.setItem('hilo3_history',JSON.stringify(history));renderHistory();setStatus('เปิดครบทั้ง 3 ลูกแล้ว');$('hint').textContent='กด “เริ่มรอบถัดไป” เพื่อเล่นอีกครั้ง';$('nextBtn').disabled=false;$('rollBtn').disabled=false}
  else $('hint').textContent=`เปิดแล้ว ${revealed}/3 ลูก — ลากแก้วต่อเพื่อเปิดลูกที่ ${revealed+1}`}
@@ -83,6 +108,7 @@ function pointerUp(e){if(!active)return;const step=maxOffset()/3,target=Math.min
 $('cup').addEventListener('pointerdown',pointerDown);$('cup').addEventListener('pointermove',pointerMove);$('cup').addEventListener('pointerup',pointerUp);$('cup').addEventListener('pointercancel',pointerUp);
 $('rollBtn').addEventListener('click',newRound);$('nextBtn').addEventListener('click',newRound);
 $('soundBtn').addEventListener('click',()=>{soundOn=!soundOn;if(soundOn)getAudio();syncSound()});
+$('volumeSlider').addEventListener('input',e=>{shakeVolume=Number(e.target.value);localStorage.setItem('hilo3_volume',String(shakeVolume));$('volumeValue').textContent=shakeVolume+'%'});
 $('clearBtn').addEventListener('click',()=>{if(confirm('ต้องการล้างประวัติผลทั้งหมดหรือไม่?')){history=[];localStorage.removeItem('hilo3_history');renderHistory()}});
 syncSound();renderHistory();resetVisual();
 if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
