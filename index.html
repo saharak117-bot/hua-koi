@@ -88,10 +88,10 @@ function syncSound(){
  $('volumeSlider').value=shakeVolume;$('volumeValue').textContent=shakeVolume+'%';
 }
 function paintCup(){$('cup').style.transform=`translateY(${-offset}px)`}
-function maxOffset(){return 300}
+function maxOffset(){return $('cup').offsetHeight+10}
 function setStatus(t){$('status').textContent=t}
 function renderHistory(){$('history').innerHTML='';$('empty').style.display=history.length?'none':'block';history.slice(0,100).forEach((r,i)=>{const tr=document.createElement('tr');[history.length-i,r.d[0],r.d[1],r.d[2],r.sum,r.result].forEach(v=>{let td=document.createElement('td');td.textContent=v;tr.appendChild(td)});$('history').appendChild(tr)})}
-function resetVisual(){revealed=0;offset=0;active=false;$('cup').classList.remove('done');$('cup').style.display='flex';paintCup();for(let i=0;i<3;i++){$('die'+i).classList.add('hidden');$('die'+i).textContent=faces[dice[i]];$('dot'+i).classList.remove('active')}$('result').textContent='';$('numbers').textContent='';$('hint').textContent='หลังเขย่า เลื่อนแก้วขึ้นด้านบนเพื่อเปิดทีละลูก เมื่อเปิดครบให้ดึงแก้วลงเพื่อปิด';$('nextBtn').disabled=true}
+function resetVisual(){revealed=0;offset=0;active=false;$('cup').classList.remove('done');$('cup').style.display='flex';paintCup();for(let i=0;i<3;i++){$('die'+i).classList.add('hidden');$('die'+i).textContent=faces[dice[i]];$('dot'+i).classList.remove('active')}$('result').textContent='';$('numbers').textContent='';$('hint').textContent='หลังเขย่า เลื่อนแก้วขึ้นด้านบนจนพ้นจอเพื่อเปิดลูกเต๋าทีละลูก เมื่อเปิดครบให้ดึงแก้วลงเพื่อปิด';$('nextBtn').disabled=true}
 function newRound(){
  getAudio();
  // สุ่มใหม่จนกว่าผลรวมจะไม่ใช่ 11
