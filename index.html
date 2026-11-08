@@ -1,24 +1,169 @@
-<!doctype html><html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#101827"><link rel="manifest" href="manifest.webmanifest"><title>ไฮโลถ้วยครอบ</title>
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="theme-color" content="#101827">
+<link rel="manifest" href="manifest.webmanifest">
+<title>ไฮโลลูกเต๋า 3 ลูก</title>
 <style>
-*{box-sizing:border-box}body{margin:0;min-height:100svh;background:radial-gradient(ellipse at 50% 10%,#35496b,#101827 65%);color:#fff;font-family:system-ui,sans-serif}main{width:min(100%,490px);margin:auto;min-height:100svh;padding:22px 18px 28px;display:flex;flex-direction:column;align-items:center;text-align:center}h1{font-size:28px;margin:6px 0 2px}.sub{color:#b8c5d9;font-size:14px;margin:0 0 12px}.stage{position:relative;width:100%;height:300px;display:flex;align-items:center;justify-content:center;overflow:hidden;border-radius:25px;background:radial-gradient(ellipse at center,#344563,#121d30 100%);box-shadow:inset 0 0 35px #0005}.shadow{position:absolute;bottom:44px;width:270px;height:35px;border-radius:50%;background:#0007;filter:blur(9px)}.dice-row{position:absolute;bottom:72px;display:flex;gap:11px;z-index:2}.die{width:76px;height:76px;border-radius:16px;background:linear-gradient(145deg,#fff,#dce4ef);box-shadow:0 8px 15px #0007;display:grid;grid-template:repeat(3,1fr)/repeat(3,1fr);padding:11px;gap:2px}.dot{width:11px;height:11px;border-radius:50%;background:#17243a;align-self:center;justify-self:center;opacity:0}.dot.on{opacity:1}.cup-wrap{position:absolute;z-index:5;bottom:58px;width:230px;height:205px;transform-origin:50% 85%;filter:drop-shadow(0 12px 9px #0008);transition:transform .9s cubic-bezier(.2,.8,.2,1),opacity .6s}.cup{position:absolute;inset:23px 10px 0;background:linear-gradient(100deg,#7b8798,#e2e8ef 17%,#8995a5 34%,#eef2f6 54%,#7b8798 76%,#d7dee8);clip-path:polygon(13% 0,87% 0,100% 100%,0 100%);border-radius:0 0 24px 24px}.rim{position:absolute;left:8px;right:8px;top:15px;height:27px;border-radius:50%;background:linear-gradient(#f8fbff,#7f8b9d 45%,#e6ebf2 70%,#657286);border:2px solid #eaf0f7}.base{position:absolute;bottom:0;left:22px;right:22px;height:17px;border-radius:50%;background:linear-gradient(#aeb9c8,#59677a)}.cup-label{position:absolute;top:90px;left:0;right:0;color:#26364d;font-weight:900;font-size:21px;letter-spacing:2px}.cup-wrap.shaking{animation:shakeCup .12s infinite alternate}@keyframes shakeCup{0%{transform:translate(-8px,1px) rotate(-7deg)}50%{transform:translate(8px,-5px) rotate(7deg)}100%{transform:translate(-3px,2px) rotate(-4deg)}}.cup-wrap.lifted{transform:translateY(-245px) rotate(-8deg);opacity:0}.status{min-height:35px;font-size:18px;font-weight:800;margin:14px 0 5px}.values{display:flex;gap:8px;width:100%;justify-content:center;margin:3px 0 8px}.value{flex:1;max-width:110px;background:#1d2b43;border:1px solid #ffffff18;border-radius:12px;padding:8px 3px;color:#dce6f5;font-size:13px}.value b{display:block;color:#ffd166;font-size:22px}.total{font-size:20px;font-weight:850;color:#ffd166;min-height:32px;margin:4px 0 10px}.primary{width:100%;border:0;border-radius:15px;padding:15px 12px;background:linear-gradient(135deg,#847cff,#5d54eb);color:white;font-weight:850;font-size:19px}.primary:disabled{opacity:.45}.secondary{flex:1;margin-top:9px;border:1px solid #ffffff20;border-radius:13px;padding:12px;background:#263650;color:#eaf0fa;font-size:15px}.row{display:flex;gap:9px;width:100%}.stats{display:flex;gap:8px;width:100%;margin-top:15px}.stat{flex:1;background:#1d2b43;border-radius:12px;padding:8px}.stat b{display:block;font-size:20px}.stat span{font-size:12px;color:#aebbd0}.rule{font-size:12px;line-height:1.6;color:#aab8ce;margin:14px 0 0}
-</style></head><body><main>
-<h1>🎲 ไฮโลถ้วยครอบ</h1><p class="sub">เขย่าถ้วย แล้วเปิดดูผลลูกเต๋า 3 ลูก</p>
-<section class="stage"><div class="shadow"></div><div class="dice-row"><div class="die" id="die0"></div><div class="die" id="die1"></div><div class="die" id="die2"></div></div><div class="cup-wrap" id="cup"><div class="cup"><div class="cup-label">H I L O</div></div><div class="rim"></div><div class="base"></div></div></section>
-<div class="status" id="status">ลูกเต๋าถูกครอบไว้แล้ว</div>
-<div class="values" id="values"><div class="value">ลูกที่ 1<b>?</b></div><div class="value">ลูกที่ 2<b>?</b></div><div class="value">ลูกที่ 3<b>?</b></div></div>
-<div class="total" id="total">รอเปิดถ้วยเพื่อดูผล</div>
-<button class="primary" id="shake">🔄 เขย่าถ้วย</button><button class="primary" id="reveal" disabled style="margin-top:9px;background:linear-gradient(135deg,#e5a83c,#bd741b)">🥤 เปิดถ้วย ดูผล</button>
-<div class="row"><button class="secondary" id="sound">🔊 เสียง: เปิด</button><button class="secondary" id="again">↻ เริ่มรอบใหม่</button></div>
-<div class="stats"><div class="stat"><b id="high">0</b><span>สูง</span></div><div class="stat"><b id="low">0</b><span>ต่ำ</span></div><div class="stat"><b id="count">0</b><span>รอบ</span></div></div>
-<p class="rule">แต้มรวม 3–10 = ต่ำ · 11–18 = สูง<br>เลข 11 เป็นสูงธรรมดา ไม่มีโบนัสหรือกติกากินเรียบ<br>เสียงพูดใช้ระบบอ่านข้อความภาษาไทยของอุปกรณ์</p>
-</main><script>
-const $=id=>document.getElementById(id),patterns={1:[4],2:[0,8],3:[0,4,8],4:[0,2,6,8],5:[0,2,4,6,8],6:[0,2,3,5,6,8]};let vals=[1,1,1],shaken=false,revealed=false,soundOn=true,high=0,low=0,count=0;
-function draw(el,n){el.innerHTML='';for(let i=0;i<9;i++){let d=document.createElement('i');d.className='dot'+(patterns[n].includes(i)?' on':'');el.appendChild(d)}}
-function show(v){v.forEach((n,i)=>draw($('die'+i),n))}
-function speakSequence(msgs){if(!soundOn||!('speechSynthesis'in window))return;speechSynthesis.cancel();let delay=0;msgs.forEach(msg=>{let u=new SpeechSynthesisUtterance(msg);u.lang='th-TH';u.rate=.9;u.pitch=1;setTimeout(()=>{if(soundOn)speechSynthesis.speak(u)},delay);delay+=Math.max(1200,msg.length*210)})}
-function stats(){$('high').textContent=high;$('low').textContent=low;$('count').textContent=count}
-function fresh(){vals=[1,1,1];shaken=false;revealed=false;$('cup').classList.remove('lifted','shaking');$('status').textContent='ลูกเต๋าถูกครอบไว้แล้ว';$('total').textContent='รอเปิดถ้วยเพื่อดูผล';$('values').innerHTML=[1,2,3].map(n=>`<div class="value">ลูกที่ ${n}<b>?</b></div>`).join('');show(vals);$('shake').disabled=false;$('reveal').disabled=true;$('shake').textContent='🔄 เขย่าถ้วย'}
-$('shake').onclick=()=>{if(shaken)return;$('shake').disabled=true;$('status').textContent='กำลังเขย่าถ้วย...';$('cup').classList.add('shaking');let ticks=0,t=setInterval(()=>{vals=Array.from({length:3},()=>Math.floor(Math.random()*6)+1);show(vals);if(++ticks>=15){clearInterval(t);vals=Array.from({length:3},()=>Math.floor(Math.random()*6)+1);show(vals);$('cup').classList.remove('shaking');shaken=true;$('status').textContent='เขย่าเสร็จแล้ว! กดเปิดถ้วยเพื่อดูแต้ม';$('reveal').disabled=false;$('shake').textContent='✓ เขย่าแล้ว';if(soundOn&&'speechSynthesis'in window){let u=new SpeechSynthesisUtterance('เขย่าถ้วยเรียบร้อยแล้ว');u.lang='th-TH';speechSynthesis.speak(u)}}},100)};
-$('reveal').onclick=()=>{if(!shaken||revealed)return;revealed=true;$('cup').classList.add('lifted');$('reveal').disabled=true;let sum=vals.reduce((a,b)=>a+b,0),label=sum>=11?'สูง':'ต่ำ';$('status').textContent='เปิดถ้วยแล้ว!';$('values').innerHTML=vals.map((n,i)=>`<div class="value">ลูกที่ ${i+1}<b>${n} แต้ม</b></div>`).join('');$('total').textContent=`รวม ${sum} แต้ม — ${label}`;if(sum>=11)high++;else low++;count++;stats();speakSequence([`${['ศูนย์','หนึ่ง','สอง','สาม','สี่','ห้า','หก'][vals[0]]}`,`${['ศูนย์','หนึ่ง','สอง','สาม','สี่','ห้า','หก'][vals[1]]}`,`${['ศูนย์','หนึ่ง','สอง','สาม','สี่','ห้า','หก'][vals[2]]}`,`รวม ${sum} แต้ม ${label}`])};
-$('sound').onclick=()=>{soundOn=!soundOn;$('sound').textContent=soundOn?'🔊 เสียง: เปิด':'🔇 เสียง: ปิด';if(!soundOn&&'speechSynthesis'in window)speechSynthesis.cancel()};$('again').onclick=fresh;show(vals);stats();fresh();if('serviceWorker'in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
-</script></body></html>
+:root{color-scheme:dark;--gold:#f6c85f;--ink:#101827;--panel:#1b293d}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(circle at top,#263a55,#101827 65%);color:#f7f8fb;font-family:system-ui,-apple-system,"Noto Sans Thai",sans-serif;min-height:100vh}
+main{width:min(680px,100%);margin:auto;padding:20px 16px 40px}
+h1{text-align:center;margin:4px 0 5px;font-size:27px;color:var(--gold)}
+.sub{text-align:center;color:#c4cede;margin:0 0 20px;font-size:14px}
+.panel{background:#1b293deF;border:1px solid #40516a;border-radius:18px;padding:16px;margin:14px 0;box-shadow:0 12px 30px #0005}
+.status{text-align:center;color:#d8e1ef;min-height:28px;font-weight:600}
+.stage{position:relative;overflow:hidden;width:100%;max-width:490px;margin:12px auto 10px;padding:18px 12px 15px;border-radius:18px;background:linear-gradient(180deg,#26364d,#172438);border:1px solid #60718a;touch-action:pan-y}
+.dice-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;position:relative;z-index:1}
+.die-slot{height:105px;border-radius:14px;background:#0d1727;border:1px dashed #66758a;display:flex;align-items:center;justify-content:center;position:relative}
+.die{width:72px;height:72px;border-radius:16px;background:linear-gradient(145deg,#fff,#dce4ef);box-shadow:0 5px 0 #aab5c4,0 8px 14px #0007;color:#182235;display:grid;place-items:center;font-size:49px;font-weight:800}
+.die.hidden{visibility:hidden}
+.die-label{position:absolute;bottom:5px;font-size:11px;color:#aebbd0}
+.cup{position:absolute;z-index:3;left:12px;top:18px;height:105px;width:calc((100% - 24px - 20px)/3);border-radius:12px 12px 20px 20px;background:linear-gradient(100deg,#596779,#d7dee6 22%,#8795a6 48%,#e3e8ee 70%,#596779);border:2px solid #e1e7ef;box-shadow:0 9px 14px #0009,inset 0 4px 8px #fff8;display:flex;align-items:center;justify-content:center;user-select:none;touch-action:none;cursor:grab;transition:transform .24s ease}
+.cup:active{cursor:grabbing}
+.cup:before{content:"";position:absolute;left:-5px;right:-5px;top:-7px;height:13px;border-radius:50%;background:linear-gradient(#f4f7fa,#748397);border:2px solid #dce4ed}
+.cup:after{content:"เลื่อน";font-size:13px;font-weight:800;color:#253246;text-shadow:0 1px #fff9}
+.cup.done{display:none}
+.hint{text-align:center;font-size:13px;color:#b9c7d9;margin:9px 0 0}
+.progress{display:flex;justify-content:center;gap:9px;margin-top:12px}
+.dot{width:11px;height:11px;border-radius:50%;background:#52627a}
+.dot.active{background:var(--gold);box-shadow:0 0 10px #f6c85f99}
+button{border:0;border-radius:12px;padding:12px 17px;font-size:15px;font-weight:750;background:var(--gold);color:#182235;cursor:pointer}
+button.secondary{background:#34445b;color:#f5f7fa;border:1px solid #62738b}
+button.danger{background:#642f38;color:#fff;border:1px solid #a65a66}
+.actions{display:flex;flex-wrap:wrap;justify-content:center;gap:9px;margin-top:14px}
+.result{text-align:center;font-size:24px;font-weight:850;color:var(--gold);min-height:36px;margin:8px 0 0}
+.numbers{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;color:#e8edf5;font-size:14px}
+.numbers b{color:var(--gold);font-size:18px}
+h2{font-size:19px;margin:0 0 12px}
+.rules{font-size:13px;color:#c4cede;line-height:1.7}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px;white-space:nowrap}
+th,td{padding:9px 7px;text-align:center;border-bottom:1px solid #40516a}
+th{color:var(--gold);font-weight:750}
+.empty{text-align:center;color:#9eacc0;padding:18px}
+.footer{text-align:center;color:#8998ad;font-size:11px;margin-top:18px}
+</style>
+</head>
+<body>
+<main>
+<h1>🎲 ไฮโลลูกเต๋า 3 ลูก</h1>
+<p class="sub">เขย่าแล้วค่อย ๆ เลื่อนแก้วเปิดดูทีละลูก</p>
+<section class="panel">
+<div class="status" id="status">กด “เขย่าลูกเต๋า” เพื่อเริ่มรอบใหม่</div>
+<div class="stage" id="stage">
+  <div class="dice-row">
+    <div class="die-slot"><div class="die hidden" id="die0">⚀</div><span class="die-label">ลูกที่ 1</span></div>
+    <div class="die-slot"><div class="die hidden" id="die1">⚀</div><span class="die-label">ลูกที่ 2</span></div>
+    <div class="die-slot"><div class="die hidden" id="die2">⚀</div><span class="die-label">ลูกที่ 3</span></div>
+  </div>
+  <div class="cup" id="cup" aria-label="เลื่อนแก้วเพื่อเปิดลูกเต๋าทีละลูก"></div>
+</div>
+<div class="hint" id="hint">หลังเขย่า ใช้นิ้วลากแก้วไปทางขวาทีละจังหวะ</div>
+<div class="progress"><i class="dot" id="dot0"></i><i class="dot" id="dot1"></i><i class="dot" id="dot2"></i></div>
+<div class="result" id="result"></div>
+<div class="numbers" id="numbers"></div>
+<div class="actions">
+<button id="rollBtn">เขย่าลูกเต๋า</button>
+<button class="secondary" id="nextBtn" disabled>เริ่มรอบถัดไป</button>
+</div>
+</section>
+<section class="panel">
+<h2>ประวัติผลย้อนหลัง</h2>
+<div class="table-wrap">
+<table><thead><tr><th>รอบ</th><th>ลูก 1</th><th>ลูก 2</th><th>ลูก 3</th><th>รวม</th><th>ผล</th></tr></thead>
+<tbody id="history"></tbody></table>
+<div class="empty" id="empty">ยังไม่มีประวัติ</div>
+</div>
+<div class="actions"><button class="danger" id="clearBtn">ล้างประวัติ</button></div>
+</section>
+<section class="panel rules">
+<strong>กติกา</strong><br>
+ผลรวม 3–10 แต้ม = ต่ำ<br>
+ผลรวม 11–18 แต้ม = สูง<br>
+หมายเหตุ: ผลรวม 11 นับเป็น “สูง” ตามกติกานี้
+</section>
+<p class="footer">ประวัติบันทึกไว้ในเบราว์เซอร์ของโทรศัพท์เครื่องนี้</p>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+const faces=['','⚀','⚁','⚂','⚃','⚄','⚅'];
+let dice=[1,1,1], revealed=0, active=false, startX=0, startOffset=0, offset=0;
+let history=JSON.parse(localStorage.getItem('hilo3_history')||'[]');
+const thai=['','หนึ่ง','สอง','สาม','สี่','ห้า','หก'];
+function speak(t){if(!('speechSynthesis'in window))return; speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(t);u.lang='th-TH';u.rate=.88;speechSynthesis.speak(u)}
+function paintCup(){const cup=$('cup');cup.style.transform=`translateX(${offset}px)`;}
+function maxOffset(){return $('stage').clientWidth-24;}
+function setStatus(t){$('status').textContent=t}
+function renderHistory(){
+ $('history').innerHTML='';
+ $('empty').style.display=history.length?'none':'block';
+ history.slice(0,100).forEach((r,i)=>{
+  const tr=document.createElement('tr');
+  [history.length-i,r.d[0],r.d[1],r.d[2],r.sum,r.result].forEach(v=>{let td=document.createElement('td');td.textContent=v;tr.appendChild(td)});
+  $('history').appendChild(tr);
+ });
+}
+function resetVisual(){
+ revealed=0;offset=0;active=false;$('cup').classList.remove('done');$('cup').style.display='flex';paintCup();
+ for(let i=0;i<3;i++){$('die'+i).classList.add('hidden');$('die'+i).textContent=faces[dice[i]];$('dot'+i).classList.remove('active')}
+ $('result').textContent='';$('numbers').textContent='';$('hint').textContent='หลังเขย่า ใช้นิ้วลากแก้วไปทางขวาทีละจังหวะ';
+ $('nextBtn').disabled=true;
+}
+function newRound(){
+ dice=[1,2,3].map(()=>Math.floor(Math.random()*6)+1);resetVisual();active=true;
+ setStatus('ลูกเต๋าพร้อมแล้ว — ลากแก้วไปทางขวาเพื่อเปิดลูกที่ 1');
+ $('rollBtn').disabled=true;
+}
+function revealOne(){
+ if(!active||revealed>=3)return;
+ const i=revealed;revealed++;
+ $('die'+i).classList.remove('hidden');$('dot'+i).classList.add('active');
+ setStatus(`เปิดลูกที่ ${i+1} ได้ ${thai[dice[i]]}`);
+ speak(thai[dice[i]]);
+ if(revealed===3){
+  active=false;$('cup').classList.add('done');
+  const sum=dice.reduce((a,b)=>a+b,0),result=sum<=10?'ต่ำ':'สูง';
+  $('result').textContent=`รวม ${sum} แต้ม — ${result}`;
+  $('numbers').innerHTML=`ลูกเต๋า: <b>${dice.join(' · ')}</b>`;
+  speak(`${thai[dice[0]]} ${thai[dice[1]]} ${thai[dice[2]]} รวม ${sum} แต้ม ${result}`);
+  history.unshift({d:[...dice],sum,result,at:Date.now()});history=history.slice(0,100);
+  localStorage.setItem('hilo3_history',JSON.stringify(history));renderHistory();
+  setStatus('เปิดครบทั้ง 3 ลูกแล้ว');$('hint').textContent='กด “เริ่มรอบถัดไป” เพื่อเล่นอีกครั้ง';
+  $('nextBtn').disabled=false;$('rollBtn').disabled=false;
+ }else{
+  $('hint').textContent=`เปิดแล้ว ${revealed}/3 ลูก — ลากแก้วต่อเพื่อเปิดลูกที่ ${revealed+1}`;
+ }
+}
+function pointerDown(e){
+ if(!active)return;
+ startX=e.clientX;startOffset=offset;
+ $('cup').setPointerCapture(e.pointerId);
+}
+function pointerMove(e){
+ if(!active||!$('cup').hasPointerCapture(e.pointerId))return;
+ const dx=e.clientX-startX;
+ offset=Math.max(0,Math.min(maxOffset(),startOffset+dx));paintCup();
+}
+function pointerUp(e){
+ if(!active)return;
+ const step=maxOffset()/3;
+ const target=Math.min(3,Math.floor((offset+step*.35)/step));
+ while(revealed<target)revealOne();
+ offset=Math.min(maxOffset(),revealed*step);paintCup();
+}
+$('cup').addEventListener('pointerdown',pointerDown);
+$('cup').addEventListener('pointermove',pointerMove);
+$('cup').addEventListener('pointerup',pointerUp);
+$('cup').addEventListener('pointercancel',pointerUp);
+$('rollBtn').addEventListener('click',newRound);
+$('nextBtn').addEventListener('click',newRound);
+$('clearBtn').addEventListener('click',()=>{
+ if(confirm('ต้องการล้างประวัติผลทั้งหมดหรือไม่?')){history=[];localStorage.removeItem('hilo3_history');renderHistory()}
+});
+renderHistory();resetVisual();
+if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+</script>
+</body></html>
