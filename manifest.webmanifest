@@ -1,9 +1,1 @@
-{
-  "name": "ไฮโลลูกเต๋า 3 ลูก",
-  "short_name": "ไฮโล 3 ลูก",
-  "start_url": "./",
-  "display": "standalone",
-  "background_color": "#101827",
-  "theme_color": "#101827",
-  "icons": [{"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any"}]
-}
+{"name":"ไฮโลลูกเต๋า 3 ลูก","short_name":"ไฮโล 3 ลูก","start_url":"./","display":"standalone","background_color":"#101827","theme_color":"#101827","icons":[{"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any"}]}
